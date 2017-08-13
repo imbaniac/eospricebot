@@ -6,7 +6,7 @@
   "scripts": {
     "preinstall": "npm install pm2 -g",
     "prod": "pm2 start app.js --attach",
-    "start": "nodemon app.js"
+    "start": "NODE_ENV=development nodemon app.js"
   },
   "author": "trez",
   "license": "MIT",

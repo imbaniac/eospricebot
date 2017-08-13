@@ -1,5 +1,7 @@
 const fetch = require("node-fetch");
 const moment = require("moment");
+const logger = require("winston");
+
 require("moment-duration-format");
 
 const EOSpromise = fetch("https://eos.io/eos-sales-statistic.php").then(data =>
@@ -116,12 +118,45 @@ For bot, dapp, web apps development or feedback contact me at @tmaniac
     pattern: /\/donate/,
     showInMenu: true,
     description:
-      "/donate - author's BTC and ETH address to support development",
+      "/donate - Author's BTC and ETH address to support development",
     callback: () => {
       return Promise.resolve(`
 ETH - 0x78a2C634b844b23e22795EAb1Bd344629f4983c2
 BTC - 137dK5SdLuuEew6GJ5UE9p9ykCp4QpvrjZ
       `);
+    }
+  },
+  start: {
+    name: "/start",
+    pattern: /\/start/,
+    description: "/start - Start the bot",
+    showInMenu: user => user.active === false,
+    callback: function({ msg, match, user, created }) {
+      if (created) {
+        logger.info("Created new user with id %s", user.telegramId);
+      } else {
+        user.active = true;
+        user.save();
+      }
+
+      logger.info("User %s is now active", user.telegramId);
+      return Promise.resolve(`
+Bot activated! Type /stop to stop.
+Type /help to see all available commands
+`);
+    }
+  },
+  stop: {
+    name: "/stop",
+    pattern: /\/stop/,
+    description: "/stop - Stop receiving notifications",
+    showInMenu: user => user.active,
+    callback: ({ msg, match, user, created }) => {
+      user.active = false;
+      user.notifications = false;
+      user.save();
+      logger.info("User %s is now inactive", user.telegramId);
+      return Promise.resolve(`Bot stopped. /start again later!`);
     }
   }
 };

@@ -10,7 +10,6 @@ const events = require("events");
 const emitter = new events.EventEmitter();
 
 let config = prodConfig;
-
 if (process.env.NODE_ENV === "development") {
   config = devConfig;
   logger.level = "debug";

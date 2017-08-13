@@ -23,7 +23,7 @@ module.exports = (config, logger) => {
   bot.onText(/\/help/, msg => {
     bot.sendMessage(
       msg.from.id,
-      "Hello! I am EOS bot, and I know everything about EOS\n\n" +
+      "Hello! I am EOS bot\n\n" +
         "The following commands are available to you:\n" +
         commandDescriptions() +
         "\n" +
