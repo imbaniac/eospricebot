@@ -1,6 +1,7 @@
 const logger = require("winston");
 const express = require("express");
-const config = require("config.json")("./config.json");
+const devConfig = require("config.json")("./config.json");
+const prodConfig = require("config.json")("./config.prod.json");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
@@ -8,7 +9,10 @@ const app = express();
 const events = require("events");
 const emitter = new events.EventEmitter();
 
+let config = prodConfig;
+
 if (process.env.NODE_ENV === "development") {
+  config = devConfig;
   logger.level = "debug";
 }
 
