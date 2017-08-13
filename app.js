@@ -1,3 +1,5 @@
+require("newrelic");
+
 const logger = require("winston");
 const express = require("express");
 const devConfig = require("config.json")("./config.json");
