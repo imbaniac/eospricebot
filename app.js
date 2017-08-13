@@ -34,8 +34,8 @@ mongoose
 
 app.use(jsonParser);
 
-app.listen(config.port, () => {
-  logger.info("Express listening on port " + config.port);
+app.listen(process.env.PORT || config.port, () => {
+  logger.info("Express listening on port " + process.env.PORT || config.port);
 });
 
 // db.once("open", () => {
