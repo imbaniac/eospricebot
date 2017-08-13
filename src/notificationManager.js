@@ -19,13 +19,14 @@ const getCurrentWindow = () => {
 let currentWindow = getCurrentWindow();
 
 rule.hour = moment(currentWindow.ends).subtract(1, "hour").hours();
-rule.minute = [0, 30, 55, 59];
-
+rule.minute = [0, 30, 45, 55, 59];
+rule.second = [0, 15, 30, 45];
 module.exports = function(config, bot, emmitter) {
   const logger = config.logger;
-  var j = schedule.scheduleJob(rule, function(y) {
-    newWindow = getCurrentWindow();
-    rule.hour = moment(newWindow.ends).subtract(1, "hour").hours();
+  const j = schedule.scheduleJob(rule, function(y) {
+    setTimeout(() => {
+      rule.hour = moment(getCurrentWindow().ends).subtract(1, "hour").hours();
+    }, 300000);
     User.find({
       active: true,
       notifications: true
