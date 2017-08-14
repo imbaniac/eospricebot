@@ -17,7 +17,7 @@ const getPrices = period =>
       parseInt(period) || parseInt(period) === 0
         ? eos[parseInt(period)]
         : eos[eos[0].today];
-    console.log("new data", eos, prices);
+    console.log("new data");
     const priceETH = currentWindow.price;
     return {
       isPast:
@@ -82,7 +82,7 @@ module.exports = {
     pattern: /\/(price)(\s?\d*)/,
     showInMenu: true,
     description: "/price - Shows last price for EOS",
-    callback: ({ match }) => priceCallback(match[2])
+    callback: ({ match }) => Promise.resolve(priceCallback(match[2]))
   },
   notifications: {
     name: "/notifications",
