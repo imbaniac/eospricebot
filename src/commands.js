@@ -17,6 +17,7 @@ const getPrices = period =>
       parseInt(period) || parseInt(period) === 0
         ? eos[parseInt(period)]
         : eos[eos[0].today];
+    console.log("new data", eos, prices);
     const priceETH = currentWindow.price;
     return {
       isPast:
@@ -39,7 +40,7 @@ const getTime = (currentWindow, isPast) => {
     .format("hh:mm:ss")}`;
 };
 
-const priceCallback = period =>
+const priceCallback = (period = "") =>
   getPrices(period).then(res => {
     const {
       isPast,
@@ -51,7 +52,6 @@ const priceCallback = period =>
       marketPriceUSD,
       marketPriceBTC
     } = res;
-    console.log(currentWindow);
     return `
 Period ${currentWindow.id} ${getTime(currentWindow, isPast)}
 
