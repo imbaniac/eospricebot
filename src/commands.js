@@ -51,6 +51,7 @@ const priceCallback = period =>
       marketPriceUSD,
       marketPriceBTC
     } = res;
+    console.log(currentWindow);
     return `
 Period ${currentWindow.id} ${getTime(currentWindow, isPast)}
 

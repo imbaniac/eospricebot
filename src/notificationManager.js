@@ -7,6 +7,7 @@ const commands = require("./commands");
 const schedule = require("node-schedule");
 const dates = require("../dates");
 const rule = new schedule.RecurrenceRule();
+const updateWindowRule = new schedule.RecurrenceRule();
 
 const getCurrentWindow = () => {
   return dates.find((day, i) => {
@@ -20,13 +21,15 @@ let currentWindow = getCurrentWindow();
 
 rule.hour = moment(currentWindow.ends).subtract(1, "hour").hours();
 rule.minute = [0, 30, 45, 55, 59];
-rule.second = [0, 15, 30, 45];
+
+updateWindowRule.hour = moment(currentWindow.ends).add(1, "hour").hours();
+const j = schedule.scheduleJob(rule, () => {
+  rule.hour = moment(currentWindow.ends).subtract(1, "hour").hours();
+});
+
 module.exports = function(config, bot, emmitter) {
   const logger = config.logger;
   const j = schedule.scheduleJob(rule, function(y) {
-    setTimeout(() => {
-      rule.hour = moment(getCurrentWindow().ends).subtract(1, "hour").hours();
-    }, 300000);
     User.find({
       active: true,
       notifications: true
