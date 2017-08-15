@@ -4,15 +4,13 @@ const logger = require("winston");
 
 require("moment-duration-format");
 
-const EOSpromise = fetch("https://eos.io/eos-sales-statistic.php").then(data =>
-  data.json()
-);
-const CryptoComparePromise = fetch(
-  "https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,EOS,ETH&tsyms=USD,BTC,ETH"
-).then(response => response.json());
-
 const getPrices = period =>
-  Promise.all([EOSpromise, CryptoComparePromise]).then(([eos, prices]) => {
+  Promise.all([
+    fetch("https://eos.io/eos-sales-statistic.php").then(res => res.json()),
+    fetch(
+      "https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,EOS,ETH&tsyms=USD,BTC,ETH"
+    ).then(res => res.json())
+  ]).then(([eos, prices]) => {
     const currentWindow =
       parseInt(period) || parseInt(period) === 0
         ? eos[parseInt(period)]
