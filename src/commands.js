@@ -32,9 +32,13 @@ const getPrices = period =>
 
 const getTime = (currentWindow, isPast) => {
   if (isPast) return ``;
-  return ` will be end within ${moment
-    .duration(moment(currentWindow.ends).diff(moment.now()))
-    .format("hh:mm:ss")}`;
+  const duration = moment.duration(
+    moment(currentWindow.ends).diff(moment.now())
+  );
+  const time =
+    Math.floor(duration.asHours()) +
+    moment.utc(duration.asMilliseconds()).format(":mm:ss");
+  return ` will be end within ${time}`;
 };
 
 const priceCallback = (period = "") =>
@@ -96,8 +100,9 @@ module.exports = {
 
 Enabled: ${user.notifications}
 
-${user.notifcations &&
-        "I'll be sending you 5 notifcations - 1 hours, 30 min, 15 min, 5 min, and 1 min before window closes"}
+${user.notifications
+        ? "I'll be sending you 5 notifcations - 1 hours, 30 min, 15 min, 5 min, and 1 min before period ending"
+        : ""}
       `);
     }
   },
