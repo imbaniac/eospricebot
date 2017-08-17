@@ -31,12 +31,6 @@ module.exports = (config, logger) => {
     );
   });
 
-  bot.on("callback_query", msg => {
-    console.log(msg);
-    // Если присланный вариант совпадает с вариантом из массива
-    bot.sendMessage(msg.from.id, msg.data);
-  });
-
   Object.keys(commands).map(key => {
     const command = commands[key];
     bot.onText(command.pattern, (msg, match) => {

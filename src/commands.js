@@ -15,7 +15,6 @@ const getPrices = period =>
       parseInt(period) || parseInt(period) === 0
         ? eos[parseInt(period)]
         : eos[eos[0].today];
-    console.log("new data");
     const priceETH = currentWindow.price;
     return {
       isPast:
@@ -65,7 +64,9 @@ Period ${currentWindow.id} ${getTime(currentWindow, isPast)}
   ${marketPriceETH.toFixed(6)} ETH
   ${marketPriceBTC.toFixed(6)} BTC
 
-<b>Profit</b>: ${(marketPriceETH / priceETH - 1).toFixed(5) * 100}%
+<b>Predicted Profit</b>: ${((marketPriceETH / priceETH - 1) * 100).toFixed(4)}%
+
+<b>Daily collected: ${currentWindow.dailyTotal.toFixed(5)} ETH</b>
 
 (${moment(currentWindow.begins).format("MMM DD YYYY HH:mm:ss Z")}
 ${moment(currentWindow.ends).format("MMM DD YYYY HH:mm:ss Z")})
@@ -94,6 +95,9 @@ module.exports = {
 <b>Notification Settings</b>
 
 Enabled: ${user.notifications}
+
+${user.notifcations &&
+        "I'll be sending you 5 notifcations - 1 hours, 30 min, 15 min, 5 min, and 1 min before window closes"}
       `);
     }
   },

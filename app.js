@@ -8,8 +8,6 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
 const app = express();
-const events = require("events");
-const emitter = new events.EventEmitter();
 
 let config = prodConfig;
 if (process.env.NODE_ENV === "development") {
@@ -30,8 +28,9 @@ mongoose
       logger.error("Mongodb connection failed!");
     });
     const bot = require("./src/bot")(config, logger);
-    require("./src/notificationManager")(config, bot, emitter);
-  });
+    require("./src/notificationManager")(config, bot);
+  })
+  .catch(e => console.error(e));
 
 app.use(jsonParser);
 

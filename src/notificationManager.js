@@ -27,7 +27,7 @@ const j = schedule.scheduleJob(rule, () => {
   rule.hour = moment(currentWindow.ends).subtract(1, "hour").hours();
 });
 
-module.exports = function(config, bot, emmitter) {
+module.exports = function(config, bot) {
   const logger = config.logger;
   const j = schedule.scheduleJob(rule, function(y) {
     User.find({
