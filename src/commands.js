@@ -101,7 +101,7 @@ module.exports = {
 Enabled: ${user.notifications}
 
 ${user.notifications
-        ? "I'll be sending you 5 notifcations - 1 hours, 30 min, 15 min, 5 min, and 1 min before period ending"
+        ? "I'll be sending you 5 notifications ~ 1 hour, 30 min, 15 min, 5 min, and 1 min before period ending"
         : ""}
       `);
     }
